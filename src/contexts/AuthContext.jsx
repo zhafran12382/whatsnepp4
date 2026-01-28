@@ -288,9 +288,13 @@ export const AuthProvider = ({ children }) => {
   const changePassword = useCallback(async (currentPassword, newPassword) => {
     setLoading(true)
     try {
-      // First verify current password by trying to sign in
+      // Supabase doesn't have a built-in way to verify current password without signing in.
+      // The updateUser function will update the password for the current session.
+      // For better security, this should ideally be done with a server-side function.
+      
+      // Verify current credentials by attempting sign-in (this refreshes the session)
       const email = `${user.username.toLowerCase()}@whatsnep.local`
-      const { error: verifyError } = await supabase.auth.signInWithPassword({
+      const { data: authData, error: verifyError } = await supabase.auth.signInWithPassword({
         email,
         password: currentPassword
       })
@@ -299,7 +303,12 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Current password is incorrect')
       }
 
-      // Update password
+      // Ensure we have a valid session before updating
+      if (!authData.session) {
+        throw new Error('Session verification failed')
+      }
+
+      // Update password using the verified session
       const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword
       })

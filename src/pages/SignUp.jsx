@@ -27,38 +27,34 @@ const SignUp = () => {
 
   // Debounced username availability check
   useEffect(() => {
-    const checkUsername = async () => {
-      if (username.length < 3) {
-        setUsernameStatus({ checking: false, available: null, error: null })
-        return
-      }
-
-      // Validate username format first
-      const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/
-      if (!usernameRegex.test(username)) {
-        setUsernameStatus({
-          checking: false,
-          available: false,
-          error: 'Username can only contain letters, numbers, and underscores (3-20 characters)'
-        })
-        return
-      }
-
-      setUsernameStatus({ checking: true, available: null, error: null })
-      
-      const timer = setTimeout(async () => {
-        const result = await checkUsernameAvailability(username)
-        setUsernameStatus({
-          checking: false,
-          available: result.available,
-          error: result.error
-        })
-      }, 500)
-
-      return () => clearTimeout(timer)
+    if (username.length < 3) {
+      setUsernameStatus({ checking: false, available: null, error: null })
+      return
     }
 
-    checkUsername()
+    // Validate username format first
+    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/
+    if (!usernameRegex.test(username)) {
+      setUsernameStatus({
+        checking: false,
+        available: false,
+        error: 'Username can only contain letters, numbers, and underscores (3-20 characters)'
+      })
+      return
+    }
+
+    setUsernameStatus({ checking: true, available: null, error: null })
+    
+    const timer = setTimeout(async () => {
+      const result = await checkUsernameAvailability(username)
+      setUsernameStatus({
+        checking: false,
+        available: result.available,
+        error: result.error
+      })
+    }, 500)
+
+    return () => clearTimeout(timer)
   }, [username, checkUsernameAvailability])
 
   // Validate form
