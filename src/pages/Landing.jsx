@@ -4,9 +4,12 @@ import { MessageCircle, Shield, Sparkles, ArrowRight, Zap, Lock, Users } from 'l
 import { Button } from '../components/ui'
 import { FloatingParticles } from '../components/Particles'
 
-// Animated rings component
+// Animated rings component (decorative)
 const AnimatedRings = () => (
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+  <div 
+    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+    aria-hidden="true"
+  >
     {[1, 2, 3].map((ring) => (
       <motion.div
         key={ring}

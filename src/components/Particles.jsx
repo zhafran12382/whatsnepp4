@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 // Generate particles only once on the client side
 const generateParticles = (count, variant = 'default') => {
   const particles = []
-  for (let i = 0; i < count; i++) {
+  // Check if we're on mobile for reduced count
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const adjustedCount = isMobile ? Math.floor(count / 2) : count
+  
+  for (let i = 0; i < adjustedCount; i++) {
     const random1 = Math.random()
     const random2 = Math.random()
     const random3 = Math.random()
@@ -32,16 +36,16 @@ const generateParticles = (count, variant = 'default') => {
 }
 
 export const FloatingParticles = ({ count = 50, variant = 'default' }) => {
-  const [particles, setParticles] = useState([])
-
-  useEffect(() => {
-    setParticles(generateParticles(count, variant))
-  }, [count, variant])
+  // Generate particles once during initial render
+  const [particles] = useState(() => generateParticles(count, variant))
 
   if (particles.length === 0) return null
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div 
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden="true"
+    >
       {particles.map((particle) => (
         <div
           key={particle.id}

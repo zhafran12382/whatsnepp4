@@ -189,7 +189,7 @@ export const LoadingSpinner = ({ size = 'md', className = '' }) => {
 export const PasswordStrengthIndicator = ({ password }) => {
   const getStrength = (pwd) => {
     let score = 0
-    if (!pwd) return { score: 0, label: '', color: '', bgColor: '' }
+    if (!pwd) return { score: 0, label: '', color: '', bgColor: '', glowColor: '' }
     
     if (pwd.length >= 8) score++
     if (pwd.length >= 12) score++
@@ -198,10 +198,10 @@ export const PasswordStrengthIndicator = ({ password }) => {
     if (/[0-9]/.test(pwd)) score++
     if (/[^a-zA-Z0-9]/.test(pwd)) score++
 
-    if (score <= 2) return { score: 1, label: 'Weak', color: 'text-red-400', bgColor: 'bg-red-500' }
-    if (score <= 4) return { score: 2, label: 'Medium', color: 'text-yellow-400', bgColor: 'bg-yellow-500' }
-    if (score <= 5) return { score: 3, label: 'Strong', color: 'text-green-400', bgColor: 'bg-green-500' }
-    return { score: 4, label: 'Very Strong', color: 'text-emerald-400', bgColor: 'bg-emerald-400' }
+    if (score <= 2) return { score: 1, label: 'Weak', color: 'text-red-400', bgColor: 'bg-red-500', glowColor: 'rgba(239, 68, 68, 0.5)' }
+    if (score <= 4) return { score: 2, label: 'Medium', color: 'text-yellow-400', bgColor: 'bg-yellow-500', glowColor: 'rgba(234, 179, 8, 0.5)' }
+    if (score <= 5) return { score: 3, label: 'Strong', color: 'text-green-400', bgColor: 'bg-green-500', glowColor: 'rgba(34, 197, 94, 0.5)' }
+    return { score: 4, label: 'Very Strong', color: 'text-emerald-400', bgColor: 'bg-emerald-400', glowColor: 'rgba(52, 211, 153, 0.5)' }
   }
 
   const strength = getStrength(password)
@@ -220,7 +220,7 @@ export const PasswordStrengthIndicator = ({ password }) => {
               strength.score >= level ? strength.bgColor : 'bg-white/10'
             }`}
             style={{
-              boxShadow: strength.score >= level ? `0 0 10px ${strength.bgColor.replace('bg-', 'var(--color-')})` : 'none'
+              boxShadow: strength.score >= level ? `0 0 10px ${strength.glowColor}` : 'none'
             }}
           />
         ))}

@@ -182,6 +182,9 @@ const Login = () => {
               >
                 <button
                   type="button"
+                  role="checkbox"
+                  aria-checked={rememberMe}
+                  aria-label="Remember me - Stay logged in"
                   onClick={() => setRememberMe(!rememberMe)}
                   className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-300 ${
                     rememberMe
